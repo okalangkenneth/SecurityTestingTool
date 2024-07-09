@@ -1,0 +1,62 @@
+﻿@page "/dashboard"
+@using SecurityTestingBlazor.Models
+@using SecurityTestingBlazor.Services
+@inject SecurityTestingService SecurityTestingService
+
+<h1>Security Testing Dashboard</h1>
+
+<div>
+    <h2>SAST</h2>
+    <input @bind="codeBasePath" placeholder="Code Base Path" />
+    <button @onclick="StartSAST">Start SAST</button>
+</div>
+
+<div>
+    <h2>DAST</h2>
+    <input @bind="targetUrl" placeholder="Target URL" />
+    <button @onclick="StartDAST">Start DAST</button>
+</div>
+
+<div>
+    <h2>Penetration Test</h2>
+    <input @bind="penTestRequest.ModuleName" placeholder="Module Name" />
+    <input @bind="penTestRequest.Target" placeholder="Target" />
+    <button @onclick="StartPenTest">Start Pen Test</button>
+</div>
+
+<div>
+    <h2>Generate Report</h2>
+    <input @bind="filePath" placeholder="File Path" />
+    <button @onclick="GenerateReport">Generate Report</button>
+</div>
+
+@code {
+    private string codeBasePath;
+    private string targetUrl;
+    private PenTestRequest penTestRequest = new PenTestRequest();
+    private string filePath;
+
+    private async Task StartSAST()
+    {
+        await SecurityTestingService.StartSAST(codeBasePath);
+        // Add any additional logic or notifications
+    }
+
+    private async Task StartDAST()
+    {
+        await SecurityTestingService.StartDAST(targetUrl);
+        // Add any additional logic or notifications
+    }
+
+    private async Task StartPenTest()
+    {
+        await SecurityTestingService.StartPenTest(penTestRequest);
+        // Add any additional logic or notifications
+    }
+
+    private async Task GenerateReport()
+    {
+        await SecurityTestingService.GenerateReport(new List<Vulnerability>(), filePath);
+        // Add any additional logic or notifications
+    }
+}
